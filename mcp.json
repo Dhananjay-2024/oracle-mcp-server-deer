@@ -1,0 +1,61 @@
+{
+	"servers": {
+		"oracle-stdio": {
+			"command": "c:\\Users\\dhananjayl\\OneDrive - Maveric Systems Limited\\Desktop\\oracle-mcp-server\\.venv\\Scripts\\python.exe",
+			"args": [
+				"c:\\Users\\dhananjayl\\OneDrive - Maveric Systems Limited\\Desktop\\oracle-mcp-server\\main.py"
+			],
+			"env": {
+				"DB_NAMES": "dva_sample,BANKING_DB1,dev",
+				"DB_DVA_SAMPLE_CONNECTION_STRING": "oracle+oracledb://DVA_SAMPLE:DVA_SAMPLE@192.168.59.11:1521/?service_name=xepdb1",
+				"DB_DVA_SAMPLE_SCHEMA": "",
+				"DB_TEST_CONNECTION_STRING": "oracle+oracledb://BANKING_DB1:sql123@192.168.59.11:1521/?service_name=xepdb1",
+				"DB_TEST_SCHEMA": "",
+				"DB_DEV_CONNECTION_STRING": "oracle+oracledb://HR:HR@192.168.59.11:1521/?service_name=xepdb1",
+				"DB_DEV_SCHEMA": "",
+				"CACHE_DIR": "c:\\Users\\dhananjayl\\OneDrive - Maveric Systems Limited\\Desktop\\oracle-mcp-server\\.cache",
+				"THICK_MODE": "",
+				"ORACLE_CLIENT_LIB_DIR": "",
+				"READ_ONLY_MODE": "1"
+			},
+			"type": "stdio"
+		},
+		"oracle-http": {
+			"command": "c:\\Users\\dhananjayl\\OneDrive - Maveric Systems Limited\\Desktop\\oracle-mcp-server\\.venv\\Scripts\\python.exe",
+			"args": [
+				"c:\\Users\\dhananjayl\\OneDrive - Maveric Systems Limited\\Desktop\\oracle-mcp-server\\main.py",
+				"--transport",
+				"sse",
+				"--host",
+				"127.0.0.1",
+				"--port",
+				"3000"
+			],
+			"env": {
+				"DB_NAMES": "dva_sample,BANKING_DB1,dev",
+				"DB_DVA_SAMPLE_CONNECTION_STRING": "oracle+oracledb://DVA_SAMPLE:DVA_SAMPLE@192.168.59.11:1521/?service_name=xepdb1",
+				"DB_DVA_SAMPLE_SCHEMA": "",
+				"DB_TEST_CONNECTION_STRING": "oracle+oracledb://BANKING_DB1:sql123@192.168.59.11:1521/?service_name=xepdb1",
+				"DB_TEST_SCHEMA": "",
+				"DB_DEV_CONNECTION_STRING": "oracle+oracledb://HR:HR@192.168.59.11:1521/?service_name=xepdb1",
+				"DB_DEV_SCHEMA": "",
+				"CACHE_DIR": "c:\\Users\\dhananjayl\\OneDrive - Maveric Systems Limited\\Desktop\\oracle-mcp-server\\.cache",
+				"THICK_MODE": "",
+				"ORACLE_CLIENT_LIB_DIR": "",
+				"READ_ONLY_MODE": "1"
+			},
+			"type": "sse",
+			"sse": {
+				"url": "http://127.0.0.1:3000/sse"
+			}
+		}
+	},
+	"inputs": [
+		{
+			"id": "db-password",
+			"type": "promptString",
+			"description": "Oracle DB Password",
+			"password": true
+		}
+	]
+}
