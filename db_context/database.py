@@ -26,6 +26,9 @@ class DatabaseConnector:
         self._pool = None
         self._pool_lock = asyncio.Lock()
         
+        # Debug: Log connector initialization with read_only state
+        print(f"[DatabaseConnector Init] read_only={self.read_only}", file=sys.stderr)
+        
         if self.thick_mode:
             try:
                 if lib_dir:
@@ -919,9 +922,13 @@ class DatabaseConnector:
                 }
             else:
                 # Double-check read-only mode for non-SELECT statements
+                print(f"[execute_sql_query] Non-SELECT statement detected. read_only={self.read_only}", file=sys.stderr)
+                print(f"[execute_sql_query] SQL: {sql[:100]}...", file=sys.stderr)
                 if self.read_only:
+                    print(f"[execute_sql_query] BLOCKING write operation due to read-only mode", file=sys.stderr)
                     raise PermissionError("Read-only mode: only SELECT and analysis statements are permitted.")
-                    
+                
+                print(f"[execute_sql_query] Executing write operation in write mode", file=sys.stderr)
                 await self._execute_cursor_no_fetch(cursor, sql, **(params or {}))
                 row_count = cursor.rowcount if cursor.rowcount >= 0 else 0
                 

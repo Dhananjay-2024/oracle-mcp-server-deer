@@ -8,6 +8,9 @@ dependencies = [
     "oracledb>=2.0.0",
     "python-dotenv>=1.0.0",
     "sqlparse>=0.4.4",
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -30,3 +33,6 @@ strict = true
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["api*", "db_context*"]
