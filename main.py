@@ -2247,16 +2247,15 @@ async def apply_dq_rules(
         connector = None
         if store_results:
             try:
-                if hasattr(db_context, '_connector'):
-                    connector = db_context._connector
+                if hasattr(db_context, 'db_connector'):
+                    connector = db_context.db_connector
                     original_read_only = getattr(connector, 'read_only', True)
                     if original_read_only:
+                        print(f"[DQ Storage] Temporarily enabling write mode for storing rules and results", file=sys.stderr)
                         connector.read_only = False
-                elif hasattr(db_context, 'connector'):
-                    connector = db_context.connector
-                    original_read_only = getattr(connector, 'read_only', True)
-                    if original_read_only:
-                        connector.read_only = False
+                else:
+                    storage_warning = "Could not access database connector to enable write mode"
+                    can_store = False
             except Exception as e:
                 storage_warning = f"Could not configure write mode: {str(e)}"
                 can_store = False

@@ -1091,6 +1091,10 @@ class DatabaseConnector:
 
         first_val = first_token.value.upper()
 
+        # Explicitly exclude PL/SQL blocks - these are write operations
+        if first_val in {"DECLARE", "BEGIN"}:
+            return False
+
         # Use sqlparse's statement type when available for robustness (handles CTEs)
         stmt_type = None
         try:
@@ -1117,6 +1121,7 @@ class DatabaseConnector:
         write_ops = {
             "INSERT", "UPDATE", "DELETE", "MERGE", "CREATE", "ALTER",
             "DROP", "TRUNCATE", "GRANT", "REVOKE", "REPLACE",
+            "DECLARE", "BEGIN",  # PL/SQL anonymous blocks
         }
 
         statements = sqlparse.parse(sql)
@@ -1129,6 +1134,10 @@ class DatabaseConnector:
             return False
 
         first_val = first_token.value.upper()
+
+        # PL/SQL anonymous blocks are always write operations (can contain DDL/DML)
+        if first_val in {"DECLARE", "BEGIN"}:
+            return True
 
         # Explicitly exclude read-only leading tokens before generic DML/DDL classification
         if first_val in {"SELECT", "WITH", "EXPLAIN", "DESCRIBE", "SHOW"}:
